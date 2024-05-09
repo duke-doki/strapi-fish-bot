@@ -19,7 +19,7 @@ pip install -r requirements.txt
 - DB_PORT
 - DB_NUM
 
-1. Put `.env` file near `main.py`.
+1. Put `.env` file in root directory.
 2. `.env` contains text data without quotes.
 
 For example, if you print `.env` content, you will see:
