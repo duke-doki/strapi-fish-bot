@@ -5,11 +5,6 @@ from io import BytesIO
 import requests
 from environs import Env
 
-env = Env()
-env.read_env()
-starapi_token = env.str('API_TOKEN')
-headers = {'Authorization': f'bearer {starapi_token}'}
-
 
 def fetch_products():
     url = 'http://localhost:1337/api/products'
@@ -196,3 +191,10 @@ def get_email_by_id(chat_id):
     email = cart['data'][0]['attributes']['email']
 
     return email
+
+
+if __name__ == '__main__':
+    env = Env()
+    env.read_env()
+    starapi_token = env.str('API_TOKEN')
+    headers = {'Authorization': f'bearer {starapi_token}'}
