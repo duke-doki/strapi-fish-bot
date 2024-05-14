@@ -49,8 +49,6 @@ def handle_menu(update, context):
             )
             context.bot.delete_message(chat_id, message_id=query.message.message_id)
             return "HANDLE_DESCRIPTION"
-    else:
-        return
 
 
 def handle_description(update, context):
@@ -74,10 +72,6 @@ def handle_description(update, context):
         elif user_reply == 'Моя корзина':
             send_cart_setup(context, chat_id)
             return "HANDLE_CART"
-        else:
-            return
-    else:
-        return
 
 
 def handle_cart(update, context):
@@ -104,8 +98,6 @@ def handle_cart(update, context):
             )
             send_menu_setup(context, chat_id)
             return "HANDLE_MENU"
-        else:
-            return
 
 
 def waiting_email(update, context):
