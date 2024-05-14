@@ -59,7 +59,6 @@ def create_or_update_cart(chat_id, products: dict):
     }
 
     if not response_cart['data']:
-
         data = {
             'data': {
                 'chat_id': str(chat_id),
@@ -72,7 +71,6 @@ def create_or_update_cart(chat_id, products: dict):
             data=json.dumps(data)
         )
     else:
-
         cart_id = response_cart['data'][0]['id']
         data = {
             'data': {
@@ -85,6 +83,7 @@ def create_or_update_cart(chat_id, products: dict):
             headers=headers,
             data=json.dumps(data)
         )
+    response.raise_for_status()
 
     return response.json()
 
@@ -103,6 +102,7 @@ def create_product_cart(product_id, quantity=1):
         headers=headers,
         data=json.dumps(data)
     )
+    response.raise_for_status()
 
     return response.json()
 
@@ -174,6 +174,7 @@ def add_email_to_cart(chat_id, email):
         headers=headers,
         data=json.dumps(data)
     )
+    response.raise_for_status()
     email_response = response.json()
     if 'error' in email_response:
         return None
