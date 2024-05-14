@@ -7,7 +7,7 @@ from environs import Env
 
 
 def fetch_products():
-    url = 'http://localhost:1337/api/products'
+    url = f'http://{host}:{port}/api/products'
 
     response = requests.get(url, headers=headers)
     response.raise_for_status()
@@ -17,7 +17,7 @@ def fetch_products():
 
 
 def get_product_by_id(product_id):
-    url = f'http://localhost:1337/api/products/{product_id}'
+    url = f'http://{host}:{port}/api/products/{product_id}'
     params = {'populate': 'Picture'}
 
     response = requests.get(url, headers=headers, params=params)
@@ -26,7 +26,7 @@ def get_product_by_id(product_id):
     product = response.json()
     image_url = \
     product['data']['attributes']['Picture']['data'][0]['attributes']['url']
-    image_url = f'http://localhost:1337{image_url}'
+    image_url = f'http://{host}:{port}{image_url}'
     image = download_image(image_url, product_id)
     return product, image
 
@@ -40,7 +40,7 @@ def download_image(url, pic_id):
 
 
 def create_or_update_cart(chat_id, products: dict):
-    url = 'http://localhost:1337/api/carts'
+    url = f'http://{host}:{port}/api/carts'
     params = {'filters[chat_id][$eq]': chat_id, 'populate': '*'}
     response = requests.get(url, headers=headers, params=params)
     response.raise_for_status()
@@ -90,7 +90,7 @@ def create_or_update_cart(chat_id, products: dict):
 
 
 def create_product_cart(product_id, quantity=1):
-    url = 'http://localhost:1337/api/cart-products'
+    url = f'http://{host}:{port}/api/cart-products'
     headers['Content-Type'] = 'application/json'
     data = {
         'data': {
@@ -108,7 +108,7 @@ def create_product_cart(product_id, quantity=1):
 
 
 def get_cart_products_by_id(chat_id):
-    url = 'http://localhost:1337/api/carts'
+    url = f'http://{host}:{port}/api/carts'
     params = {'filters[chat_id][$eq]': chat_id, 'populate': '*'}
     response = requests.get(url, headers=headers, params=params)
     response.raise_for_status()
@@ -136,7 +136,7 @@ def get_cart_products_by_id(chat_id):
 
 
 def get_cart_product_by_id(cart_product_id):
-    url = f'http://localhost:1337/api/cart-products/{cart_product_id}'
+    url = f'http://{host}:{port}/api/cart-products/{cart_product_id}'
     params = {'populate': '*'}
     response = requests.get(url, headers=headers, params=params)
     response.raise_for_status()
@@ -146,7 +146,7 @@ def get_cart_product_by_id(cart_product_id):
 
 
 def delete_cart_product(cart_product_id):
-    url = f'http://localhost:1337/api/cart-products/{cart_product_id}'
+    url = f'http://{host}:{port}/api/cart-products/{cart_product_id}'
     response = requests.delete(url, headers=headers)
     response.raise_for_status()
 
@@ -155,7 +155,7 @@ def delete_cart_product(cart_product_id):
 
 
 def add_email_to_cart(chat_id, email):
-    url = 'http://localhost:1337/api/carts'
+    url = f'http://{host}:{port}/api/carts'
     params = {'filters[chat_id][$eq]': chat_id, 'populate': '*'}
     response = requests.get(url, headers=headers, params=params)
     response.raise_for_status()
@@ -182,7 +182,7 @@ def add_email_to_cart(chat_id, email):
 
 
 def get_email_by_id(chat_id):
-    url = 'http://localhost:1337/api/carts'
+    url = f'http://{host}:{port}/api/carts'
     params = {'filters[chat_id][$eq]': chat_id, 'populate': '*'}
     response = requests.get(url, headers=headers, params=params)
     response.raise_for_status()
@@ -197,4 +197,6 @@ if __name__ == '__main__':
     env = Env()
     env.read_env()
     starapi_token = env.str('API_TOKEN')
+    host = env.str('HOST', 'localhost')
+    port = env.str('PORT', '1337')
     headers = {'Authorization': f'bearer {starapi_token}'}
