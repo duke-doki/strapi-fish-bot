@@ -12,11 +12,6 @@ from strapi_fetcher import fetch_products, get_product_by_id, \
 
 _database = None
 
-
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
 logger = logging.getLogger(__name__)
 
 
@@ -222,6 +217,10 @@ def get_database_connection():
 
 
 if __name__ == '__main__':
+    logging.basicConfig(
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        level=logging.INFO
+    )
     env = Env()
     env.read_env()
     token = env.str("TG_TOKEN")
