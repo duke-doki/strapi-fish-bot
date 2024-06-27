@@ -1,9 +1,9 @@
 import json
-
 from io import BytesIO
 
 import requests
-from environs import Env
+
+from bot_config import host, port, headers
 
 
 def fetch_products():
@@ -192,12 +192,3 @@ def get_email_by_id(chat_id):
     email = cart['data'][0]['attributes']['email']
 
     return email
-
-
-if __name__ == '__main__':
-    env = Env()
-    env.read_env()
-    starapi_token = env.str('API_TOKEN')
-    host = env.str('HOST', 'localhost')
-    port = env.str('PORT', '1337')
-    headers = {'Authorization': f'bearer {starapi_token}'}
