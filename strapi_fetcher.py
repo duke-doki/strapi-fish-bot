@@ -3,22 +3,12 @@ from io import BytesIO
 
 import requests
 
-from environs import Env
-
-
-def get_config():
-    env = Env()
-    env.read_env()
-    starapi_token = env.str('API_TOKEN')
-    host = env.str('HOST', 'localhost')
-    port = env.str('PORT', '1337')
-    headers = {'Authorization': f'bearer {starapi_token}'}
-    return host, port, headers
-
 
 class StrapiFetcher:
-    def __init__(self):
-        self.host, self.port, self.headers = get_config()
+    def __init__(self, host, port, headers):
+        self.host = host
+        self.port = port
+        self.headers = headers
 
     def fetch_products(self):
         url = f'http://{self.host}:{self.port}/api/products'

@@ -248,13 +248,21 @@ def get_database_connection():
 
 
 if __name__ == '__main__':
-    fetcher = StrapiFetcher()
+    env = Env()
+    env.read_env()
+
+    starapi_token = env.str('API_TOKEN')
+    host = env.str('HOST', 'localhost')
+    port = env.str('PORT', '1337')
+    headers = {'Authorization': f'bearer {starapi_token}'}
+
+    fetcher = StrapiFetcher(host, port, headers)
+
     logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         level=logging.INFO
     )
-    env = Env()
-    env.read_env()
+
     token = env.str("TG_TOKEN")
     updater = Updater(token)
     dispatcher = updater.dispatcher
